@@ -7,12 +7,19 @@
     <title>Document</title>
 </head>
     
-<body>
+<body style="display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; flex-direction: column;">
     
-    Select Voice: <select id='voiceList'></select> <br><br>
-
-    <input id='txtInput' /> <br><br>    
-    <button id='btnSpeak'>Speak!</button>
+    <div style="text-align: center;">
+        <div style="margin-bottom: 10px;">
+            Select Voice: <select id='voiceList' style="margin-left: 5px;"></select>
+        </div>
+        
+        <div style="margin-bottom: 10px;">
+            <input id='txtInput' style="width: 200px; padding: 5px; text-align: center;"/>
+        </div>
+        
+        <button id='btnSpeak' style="padding: 5px 15px; cursor: pointer;">Speak!</button>
+    </div>
 
     <script>
         var txtInput = document.querySelector('#txtInput');
@@ -20,12 +27,10 @@
         var btnSpeak = document.querySelector('#btnSpeak');
         var synth = window.speechSynthesis;
         var voices = [];
-
         PopulateVoices();
         if(speechSynthesis !== undefined){
             speechSynthesis.onvoiceschanged = PopulateVoices;
         }
-
         btnSpeak.addEventListener('click', ()=> {
             var toSpeak = new SpeechSynthesisUtterance(txtInput.value);
             var selectedVoiceName = voiceList.selectedOptions[0].getAttribute('data-name');
@@ -37,7 +42,6 @@
             toSpeak.rate = 0.8;
             synth.speak(toSpeak);
         });
-
         function PopulateVoices(){
             voices = synth.getVoices();
             var selectedIndex = voiceList.selectedIndex < 0 ? 0 : voiceList.selectedIndex;
@@ -49,7 +53,6 @@
                 listItem.setAttribute('data-name', voice.name);
                 voiceList.appendChild(listItem);
             });
-
             voiceList.selectedIndex = selectedIndex;
         }
     </script>
